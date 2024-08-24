@@ -1,0 +1,48 @@
+# version: '3'
+
+# services:
+#   postgres:
+#     container_name: postgres-db-p811
+#     image: postgres:13.0-alpine
+#     ports:
+#       - 5432:5432
+#     volumes:
+#       - p811-data:/var/lib/postgresql/data
+#     env_file: .env
+
+#   web:
+#     container_name: app
+#     build: .
+#     restart: "always"
+#     env_file: .env
+#     volumes:
+#       - ./:/code
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - "postgres"
+#     command: bash -c " python manage.py makemigrations --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+
+# volumes:
+#   p811-data:
+
+version: '3.1'
+services :
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - .data:/var/lib/postgres/data
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: rustam
+  admin:
+    image: adminer
+    restart: always
+    depends_on: 
+      - db
+    ports:
+      - 8080:8080
